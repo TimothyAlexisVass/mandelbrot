@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Mandelbrot</title>
+    </head>
+    <body>
+        <div>
+            <canvas id="mandelbrot" width="550" height="500"></canvas>
+        </div>
+    </body>
+</html>
+
+<style>
+    body {
+        background: rgb(68, 77, 130);
+    }
+    canvas {
+        border-radius: 10px;
+    }
+</style>
+    
+<script>
+    var canvas = document.getElementById('mandelbrot');
+    var ctx = canvas.getContext('2d');
+
+    function mandelbrot(c, iterations) {
+        let z = c;
+        let red = 255;
+        let green = 255;
+        let blue = 255;
+
+        for(let i = 1; i <= iterations; i++){
+            z = {
+                r: z.r ** 2 - z.i ** 2 + c.r,
+                i: 2 * z.r * z.i + c.i
+            };
+            
+            red -= 255/iterations;
+            green -= 2 * 255/iterations;
+            blue -= 255/iterations;
+            if(Math.abs(z.r) > 2 || Math.abs(z.i) > 2) {
+                break;   
+            }
+
+        }
+        
+        let x = 400 + 200 * c.r, y = canvas.height/2 - 200 * c.i;
+        ctx.fillStyle = `rgb(${Math.max(red, 0)}, ${green}, ${blue})`;
+        ctx.beginPath();
+        ctx.fillRect(x, y, 1, 1);
+        ctx.fill();
+    }
+
+    for(let r = -2; r <= 1; r+=0.005) {
+        for(let i = -3; i <= 3; i+=0.005) {
+            mandelbrot({r: r, i: i}, 40)
+        } 
+    }
+
+    ctx.fillStyle = 'rgba(255,120,0,0.4)';
+    ctx.beginPath();
+    ctx.fillRect(399, 0, 2, canvas.height);
+    ctx.fillRect(0, canvas.height/2 - 1, canvas.width, 2);
+    ctx.fill();
+</script>
