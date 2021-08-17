@@ -6,7 +6,7 @@
     </head>
     <body>
         <div>
-            <canvas id="mandelbrot" width="550" height="500"></canvas>
+            <canvas id="mandelbrot" width="1100" height="1000"></canvas>
         </div>
     </body>
 </html>
@@ -45,22 +45,23 @@
 
         }
         
-        let x = 400 + 200 * c.r, y = canvas.height/2 - 200 * c.i;
+        let x = 800 + 400 * c.r;
+        let y = canvas.height/2 - 400 * c.i;
         ctx.fillStyle = `rgb(${Math.max(red, 0)}, ${green}, ${blue})`;
         ctx.beginPath();
         ctx.fillRect(x, y, 1, 1);
         ctx.fill();
     }
 
-    for(let r = -2; r <= 1; r+=0.005) {
-        for(let i = -3; i <= 3; i+=0.005) {
+    for(let r = -2; r <= 1; r+=1/canvas.height) {
+        for(let i = -3; i <= 3; i+=2/canvas.width) {
             mandelbrot({r: r, i: i}, 40)
         } 
     }
 
     ctx.fillStyle = 'rgba(255,120,0,0.4)';
     ctx.beginPath();
-    ctx.fillRect(399, 0, 2, canvas.height);
+    ctx.fillRect(799, 0, 2, canvas.height);
     ctx.fillRect(0, canvas.height/2 - 1, canvas.width, 2);
     ctx.fill();
 </script>
